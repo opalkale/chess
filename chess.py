@@ -196,9 +196,34 @@ def Chess(configuration, player):
         newletterPos = chr(ord(newletterPos) - 1)
         newnumPos -= 1
 
+    elif piece == "Knight":
+      # 2 up, 1 right
+      movePiece(piece, chr(ord(letterPos) + 1), numPos + 2)
+
+      # 2 up, 1 left
+      movePiece(piece, chr(ord(letterPos) - 1), numPos + 2)
+      
+      # 2 down, 1 right
+      movePiece(piece, chr(ord(letterPos) + 1), numPos - 2)
+      
+      # 2 down, 1 left
+      movePiece(piece, chr(ord(letterPos) - 1), numPos - 2)
+      
+      # 2 right, 1 up
+      movePiece(piece, chr(ord(letterPos) + 2), numPos + 1)
+      
+      # 2 right, 1 down 
+      movePiece(piece, chr(ord(letterPos) + 2), numPos - 1)
+      
+      # 2 left, 1 up
+      movePiece(piece, chr(ord(letterPos) - 2), numPos + 1)
+      
+      # 2 left, 1 down
+      movePiece(piece, chr(ord(letterPos) - 2), numPos - 1)
+
 
 def main():
-  '''
+  
   print("Pawn Test Cases:")
   Chess([["White","Pawn", "B", 3], ["Black", "Pawn", "E", 6]], "White") 
   Chess([["White","Pawn", "B", 3], ["White", "Pawn", "E", 6]], "White") 
@@ -227,11 +252,16 @@ def main():
   Chess([["White","King", "D", 2], ["White", "Pawn", "D", 3]], "White")
   Chess([["White","King", "D", 2], ["Black", "Pawn", "D", 3]], "White")
   print(" ")
-  '''
+  
   print("Queen Test Cases:")
   Chess([["White","Queen", "D", 2], ["Black", "Pawn", "G", 5]], "White")
   Chess([["White","Queen", "D", 2], ["White", "Pawn", "G", 5]], "White")
-
+  print(" ")
+  
+  print("Knight Test Cases:")
+  Chess([["White","Knight", "D", 4], ["Black", "Pawn", "H", 1]], "White")
+  Chess([["White","Knight", "D", 4], ["White", "Pawn", "E", 2]], "White")
+  Chess([["White","Knight", "D", 4], ["Black", "Pawn", "E", 2]], "White")
   print(" ")
 
 main()
