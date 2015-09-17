@@ -143,9 +143,62 @@ def Chess(configuration, player):
       # Diagonally left and up.
       movePiece(piece, chr(ord(letterPos) - 1), numPos + 1)
 
+    elif piece == "Queen":
+      # Queen may move up mutiple squares.
+      newletterPos = letterPos
+      newnumPos = numPos + 1
+      while movePiece(piece, newletterPos, newnumPos) == True:
+        newnumPos += 1
+      
+      # Queen may move down multiple squares.
+      newletterPos = letterPos
+      newnumPos = numPos - 1
+      while movePiece(piece, newletterPos, newnumPos) == True:
+        newnumPos -= 1
+
+      # Queen may move right multiple squares.
+      newletterPos = chr(ord(letterPos) + 1)
+      newnumPos = numPos
+      while movePiece(piece, newletterPos , newnumPos) == True:
+        newletterPos = chr(ord(newletterPos) + 1)
+      
+      # Queen may move left multiple squares.
+      newletterPos = chr(ord(letterPos) - 1)
+      newnumPos = numPos
+      while movePiece(piece, newletterPos , newnumPos) == True:
+        newletterPos = chr(ord(newletterPos) - 1)
+
+      # Queen can move right and up diagonally. 
+      newletterPos = chr(ord(letterPos) + 1)
+      newnumPos = numPos + 1
+      while movePiece(piece, newletterPos, newnumPos) == True:
+        newletterPos = chr(ord(newletterPos) + 1)
+        newnumPos += 1
+
+      # Queen can move right and down diagonally.
+      newletterPos = chr(ord(letterPos) + 1)
+      newnumPos = numPos - 1
+      while movePiece(piece, newletterPos, newnumPos) == True:
+        newletterPos = chr(ord(newletterPos) + 1)
+        newnumPos -= 1
+  
+      # Queen can move left and up diagonally.
+      newletterPos = chr(ord(letterPos) - 1)
+      newnumPos = numPos + 1
+      while movePiece(piece, newletterPos, newnumPos) == True:
+        newletterPos = chr(ord(newletterPos) - 1)
+        newnumPos += 1
+
+      # Queen can move left and down diagonally.
+      newletterPos = chr(ord(letterPos) - 1)
+      newnumPos = numPos - 1
+      while movePiece(piece, newletterPos, newnumPos) == True:
+        newletterPos = chr(ord(newletterPos) - 1)
+        newnumPos -= 1
+
 
 def main():
-  
+  '''
   print("Pawn Test Cases:")
   Chess([["White","Pawn", "B", 3], ["Black", "Pawn", "E", 6]], "White") 
   Chess([["White","Pawn", "B", 3], ["White", "Pawn", "E", 6]], "White") 
@@ -174,11 +227,11 @@ def main():
   Chess([["White","King", "D", 2], ["White", "Pawn", "D", 3]], "White")
   Chess([["White","King", "D", 2], ["Black", "Pawn", "D", 3]], "White")
   print(" ")
-
+  '''
   print("Queen Test Cases:")
-  Chess([["White","King", "D", 2], ["Black", "Pawn", "G", 5]], "White")
-  Chess([["White","King", "D", 2], ["White", "Pawn", "D", 3]], "White")
-  Chess([["White","King", "D", 2], ["Black", "Pawn", "D", 3]], "White")
+  Chess([["White","Queen", "D", 2], ["Black", "Pawn", "G", 5]], "White")
+  Chess([["White","Queen", "D", 2], ["White", "Pawn", "G", 5]], "White")
+
   print(" ")
 
 main()
