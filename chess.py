@@ -15,7 +15,7 @@ def Chess(configuration, player):
     prevPos = " <" + letterPos + ":" + str(numPos) + ">"  
     stringsentence = piece + " at" + prevPos + " can move to"
 
-    # Checks if a given position is empty or not. If occupied, returns the color of the piece that occupies the position.
+    # Checks if a given square is empty or not. If occupied, returns the color of the piece that occupies the square.
     def emptyPosition(configuration, givenletPos, givennumPos):
       for element in configuration:
         currentcolorPos = element[0]
@@ -26,7 +26,7 @@ def Chess(configuration, player):
           return currentcolorPos
           break
 
-    # Checks if the given piece can move to the new position. If True, prints out possible move.
+    # Checks if the given piece can move to the new square. If True, prints out possible move.
     def movePiece(piece, newletterPos, newnumPos):
 
       # Bounded by A - H, and 1 - 8 inclusive.
@@ -44,12 +44,12 @@ def Chess(configuration, player):
 
 
     if piece == "Pawn":
-      # Pawn may move one position up.
+      # Pawn may move one square up.
       if movePiece(piece, letterPos, numPos + 1) == True:
-        # Pawn may only move two positions up if it can move one position up.
+        # Pawn may only move two squares up if it can move one square up.
         movePiece(piece, letterPos, numPos + 2)
 
-      # Pawn may move diagonally iff the diagonal spot is occupied by an opponent's piece,
+      # Pawn may move diagonally iff the diagonal square is occupied by an opponent's piece,
       if emptyPosition(configuration, chr(ord(letterPos) + 1), numPos + 1) != None:
         # Pawn may move right diagonally.
         movePiece(piece, chr(ord(letterPos) + 1), numPos + 1)
@@ -92,31 +92,31 @@ def Chess(configuration, player):
 
     elif piece == "Rook":
     
-      # Rook may move up mutiple spaces.
+      # Rook may move up mutiple squares.
       newletterPos = letterPos
       newnumPos = numPos + 1
       while movePiece(piece, newletterPos, newnumPos) == True:
         newnumPos += 1
       
-      # Rook may move down multiple spaces.
+      # Rook may move down multiple squares.
       newletterPos = letterPos
       newnumPos = numPos - 1
       while movePiece(piece, newletterPos, newnumPos) == True:
         newnumPos -= 1
 
-      # Rook may move right multiple spaces.
+      # Rook may move right multiple squares.
       newletterPos = chr(ord(letterPos) + 1)
       newnumPos = numPos
       while movePiece(piece, newletterPos , newnumPos) == True:
         newletterPos = chr(ord(newletterPos) + 1)
       
-      # Rook may move left multiple spaces.
+      # Rook may move left multiple squares.
       newletterPos = chr(ord(letterPos) - 1)
       newnumPos = numPos
       while movePiece(piece, newletterPos , newnumPos) == True:
         newletterPos = chr(ord(newletterPos) - 1)
 
-    # King may move one space in any direction.
+    # King may move one square in any direction.
     elif piece == "King":
 
       # Up.
@@ -170,6 +170,12 @@ def main():
   print(" ")
 
   print("King Test Cases:")
+  Chess([["White","King", "D", 2], ["Black", "Pawn", "G", 5]], "White")
+  Chess([["White","King", "D", 2], ["White", "Pawn", "D", 3]], "White")
+  Chess([["White","King", "D", 2], ["Black", "Pawn", "D", 3]], "White")
+  print(" ")
+
+  print("Queen Test Cases:")
   Chess([["White","King", "D", 2], ["Black", "Pawn", "G", 5]], "White")
   Chess([["White","King", "D", 2], ["White", "Pawn", "D", 3]], "White")
   Chess([["White","King", "D", 2], ["Black", "Pawn", "D", 3]], "White")
