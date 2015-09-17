@@ -92,33 +92,60 @@ def Chess(configuration, player):
 
     elif piece == "Rook":
     
-      # Rook can move up.
+      # Rook may move up mutiple spaces.
       newletterPos = letterPos
       newnumPos = numPos + 1
       while movePiece(piece, newletterPos, newnumPos) == True:
         newnumPos += 1
       
-      # Rook can move down.
+      # Rook may move down multiple spaces.
       newletterPos = letterPos
       newnumPos = numPos - 1
       while movePiece(piece, newletterPos, newnumPos) == True:
         newnumPos -= 1
 
-      # Rook can move right.
+      # Rook may move right multiple spaces.
       newletterPos = chr(ord(letterPos) + 1)
       newnumPos = numPos
       while movePiece(piece, newletterPos , newnumPos) == True:
         newletterPos = chr(ord(newletterPos) + 1)
       
-      # Rook can move left.
+      # Rook may move left multiple spaces.
       newletterPos = chr(ord(letterPos) - 1)
       newnumPos = numPos
       while movePiece(piece, newletterPos , newnumPos) == True:
         newletterPos = chr(ord(newletterPos) - 1)
 
-      
-def main():
+    # King may move one space in any direction.
+    elif piece == "King":
 
+      # Up.
+      movePiece(piece, letterPos, numPos + 1)
+
+      # Diagonally right and up.
+      movePiece(piece, chr(ord(letterPos) + 1), numPos + 1)
+
+      # Right.
+      movePiece(piece, chr(ord(letterPos) + 1), numPos)
+
+      # Diagonally right and down.
+      movePiece(piece, chr(ord(letterPos) + 1), numPos - 1)
+
+      # Down.
+      movePiece(piece, letterPos, numPos - 1)
+
+      # Diagonally left and down.
+      movePiece(piece, chr(ord(letterPos) - 1), numPos - 1)
+
+      # Left.
+      movePiece(piece, chr(ord(letterPos) - 1), numPos)
+
+      # Diagonally left and up.
+      movePiece(piece, chr(ord(letterPos) - 1), numPos + 1)
+
+
+def main():
+  
   print("Pawn Test Cases:")
   Chess([["White","Pawn", "B", 3], ["Black", "Pawn", "E", 6]], "White") 
   Chess([["White","Pawn", "B", 3], ["White", "Pawn", "E", 6]], "White") 
@@ -140,6 +167,12 @@ def main():
   Chess([["White","Rook", "G", 6], ["White", "Bishop", "H", 6]], "White")
   Chess([["White","Rook", "G", 6], ["Black", "Bishop", "H", 6]], "White")
   Chess([["White","Rook", "G", 6], ["Black", "Pawn", "B", 6]], "White")
+  print(" ")
+
+  print("King Test Cases:")
+  Chess([["White","King", "D", 2], ["Black", "Pawn", "G", 5]], "White")
+  Chess([["White","King", "D", 2], ["White", "Pawn", "D", 3]], "White")
+  Chess([["White","King", "D", 2], ["Black", "Pawn", "D", 3]], "White")
   print(" ")
 
 main()
