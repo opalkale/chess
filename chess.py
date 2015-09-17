@@ -1,225 +1,228 @@
 def Chess(configuration, player):
   for element in configuration:
 
-    # Extracted elements of input.
+    # Only gives possible moves for the current player's pieces.
     color = element[0]
-    piece = element[1]
-    letterPos = element[2]
-    numPos = element[3]
+    if (color != player):
+      
+      # Extracted elements of input.
+      piece = element[1]
+      letterPos = element[2]
+      numPos = element[3]
 
-    # Next position variables.
-    newletterPos = letterPos
-    newnumPos = numPos
+      # Next position variables.
+      newletterPos = letterPos
+      newnumPos = numPos
 
-    # Formatted strings for print statements.
-    prevPos = " <" + letterPos + ":" + str(numPos) + ">"  
-    stringsentence = piece + " at" + prevPos + " can move to"
+      # Formatted strings for print statements.
+      prevPos = " <" + letterPos + ":" + str(numPos) + ">"  
+      stringsentence = piece + " at" + prevPos + " can move to"
 
-    # Checks if a given square is empty or not. If occupied, returns the color of the piece that occupies the square.
-    def emptyPosition(configuration, givenletPos, givennumPos):
-      for element in configuration:
-        currentcolorPos = element[0]
-        currentletPos = element[2]
-        currentnumPos = element[3]
+      # Checks if a given square is empty or not. If occupied, returns the color of the piece that occupies the square.
+      def emptyPosition(configuration, givenletPos, givennumPos):
+        for element in configuration:
+          currentcolorPos = element[0]
+          currentletPos = element[2]
+          currentnumPos = element[3]
 
-        if(currentletPos == givenletPos) and (currentnumPos == givennumPos): 
-          return currentcolorPos
-          break
+          if(currentletPos == givenletPos) and (currentnumPos == givennumPos): 
+            return currentcolorPos
+            break
 
-    # Checks if the given piece can move to the new square. If True, prints out possible move.
-    def movePiece(piece, newletterPos, newnumPos):
+      # Checks if the given piece can move to the new square. If True, prints out possible move.
+      def movePiece(piece, newletterPos, newnumPos):
 
-      # Bounded by A - H, and 1 - 8 inclusive.
-      if (65 <= ord(newletterPos) <= 72) and (1 <= newnumPos <= 8): 
+        # Bounded by A - H, and 1 - 8 inclusive.
+        if (65 <= ord(newletterPos) <= 72) and (1 <= newnumPos <= 8): 
 
-        # Piece can be moved if the given coordinates are empty.
-        if (emptyPosition(configuration, newletterPos , newnumPos) == None) :
-          print(stringsentence + " <" + newletterPos + ":" + str(newnumPos) + ">")
-          return True
+          # Piece can be moved if the given coordinates are empty.
+          if (emptyPosition(configuration, newletterPos , newnumPos) == None) :
+            print(stringsentence + " <" + newletterPos + ":" + str(newnumPos) + ">")
+            return True
 
-        # Piece can be moved if the given coordinates are not empty BUT occupied by a different color piece. 
-        if (emptyPosition(configuration, newletterPos , newnumPos) != None) and (emptyPosition(configuration, newletterPos, newnumPos) != color):
-          print(stringsentence + " <" + newletterPos + ":" + str(newnumPos) + ">")
-          return emptyPosition(configuration, newletterPos , newnumPos)
+          # Piece can be moved if the given coordinates are not empty BUT occupied by a different color piece. 
+          if (emptyPosition(configuration, newletterPos , newnumPos) != None) and (emptyPosition(configuration, newletterPos, newnumPos) != color):
+            print(stringsentence + " <" + newletterPos + ":" + str(newnumPos) + ">")
+            return emptyPosition(configuration, newletterPos , newnumPos)
 
 
-    if piece == "Pawn":
-      # Pawn may move one square up.
-      if movePiece(piece, letterPos, numPos + 1) == True:
-        # Pawn may only move two squares up if it can move one square up.
-        movePiece(piece, letterPos, numPos + 2)
+      if piece == "Pawn":
+        # Pawn may move one square up.
+        if movePiece(piece, letterPos, numPos + 1) == True:
+          # Pawn may only move two squares up if it can move one square up.
+          movePiece(piece, letterPos, numPos + 2)
 
-      # Pawn may move diagonally iff the diagonal square is occupied by an opponent's piece,
-      if emptyPosition(configuration, chr(ord(letterPos) + 1), numPos + 1) != None:
-        # Pawn may move right diagonally.
+        # Pawn may move diagonally iff the diagonal square is occupied by an opponent's piece,
+        if emptyPosition(configuration, chr(ord(letterPos) + 1), numPos + 1) != None:
+          # Pawn may move right diagonally.
+          movePiece(piece, chr(ord(letterPos) + 1), numPos + 1)
+
+        if emptyPosition(configuration, chr(ord(letterPos) - 1), numPos + 1) != None:
+          # Pawn may move left diagonally.
+          movePiece(piece, chr(ord(letterPos) - 1), numPos + 1)
+
+
+      elif piece == "Bishop":
+
+        # Bishop can move right and up diagonally. 
+        newletterPos = chr(ord(letterPos) + 1)
+        newnumPos = numPos + 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) + 1)
+          newnumPos += 1
+
+        # Bishop can move right and down diagonally.
+        newletterPos = chr(ord(letterPos) + 1)
+        newnumPos = numPos - 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) + 1)
+          newnumPos -= 1
+    
+        # Bishop can move left and up diagonally.
+        newletterPos = chr(ord(letterPos) - 1)
+        newnumPos = numPos + 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) - 1)
+          newnumPos += 1
+
+        # Bishop can move left and down diagonally.
+        newletterPos = chr(ord(letterPos) - 1)
+        newnumPos = numPos - 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) - 1)
+          newnumPos -= 1
+
+
+      elif piece == "Rook":
+      
+        # Rook may move up mutiple squares.
+        newletterPos = letterPos
+        newnumPos = numPos + 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newnumPos += 1
+        
+        # Rook may move down multiple squares.
+        newletterPos = letterPos
+        newnumPos = numPos - 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newnumPos -= 1
+
+        # Rook may move right multiple squares.
+        newletterPos = chr(ord(letterPos) + 1)
+        newnumPos = numPos
+        while movePiece(piece, newletterPos , newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) + 1)
+        
+        # Rook may move left multiple squares.
+        newletterPos = chr(ord(letterPos) - 1)
+        newnumPos = numPos
+        while movePiece(piece, newletterPos , newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) - 1)
+
+      # King may move one square in any direction.
+      elif piece == "King":
+
+        # Up.
+        movePiece(piece, letterPos, numPos + 1)
+
+        # Diagonally right and up.
         movePiece(piece, chr(ord(letterPos) + 1), numPos + 1)
 
-      if emptyPosition(configuration, chr(ord(letterPos) - 1), numPos + 1) != None:
-        # Pawn may move left diagonally.
+        # Right.
+        movePiece(piece, chr(ord(letterPos) + 1), numPos)
+
+        # Diagonally right and down.
+        movePiece(piece, chr(ord(letterPos) + 1), numPos - 1)
+
+        # Down.
+        movePiece(piece, letterPos, numPos - 1)
+
+        # Diagonally left and down.
+        movePiece(piece, chr(ord(letterPos) - 1), numPos - 1)
+
+        # Left.
+        movePiece(piece, chr(ord(letterPos) - 1), numPos)
+
+        # Diagonally left and up.
         movePiece(piece, chr(ord(letterPos) - 1), numPos + 1)
 
+      elif piece == "Queen":
+        # Queen may move up mutiple squares.
+        newletterPos = letterPos
+        newnumPos = numPos + 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newnumPos += 1
+        
+        # Queen may move down multiple squares.
+        newletterPos = letterPos
+        newnumPos = numPos - 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newnumPos -= 1
 
-    elif piece == "Bishop":
+        # Queen may move right multiple squares.
+        newletterPos = chr(ord(letterPos) + 1)
+        newnumPos = numPos
+        while movePiece(piece, newletterPos , newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) + 1)
+        
+        # Queen may move left multiple squares.
+        newletterPos = chr(ord(letterPos) - 1)
+        newnumPos = numPos
+        while movePiece(piece, newletterPos , newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) - 1)
 
-      # Bishop can move right and up diagonally. 
-      newletterPos = chr(ord(letterPos) + 1)
-      newnumPos = numPos + 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) + 1)
-        newnumPos += 1
+        # Queen can move right and up diagonally. 
+        newletterPos = chr(ord(letterPos) + 1)
+        newnumPos = numPos + 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) + 1)
+          newnumPos += 1
 
-      # Bishop can move right and down diagonally.
-      newletterPos = chr(ord(letterPos) + 1)
-      newnumPos = numPos - 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) + 1)
-        newnumPos -= 1
-  
-      # Bishop can move left and up diagonally.
-      newletterPos = chr(ord(letterPos) - 1)
-      newnumPos = numPos + 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) - 1)
-        newnumPos += 1
-
-      # Bishop can move left and down diagonally.
-      newletterPos = chr(ord(letterPos) - 1)
-      newnumPos = numPos - 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) - 1)
-        newnumPos -= 1
-
-
-    elif piece == "Rook":
+        # Queen can move right and down diagonally.
+        newletterPos = chr(ord(letterPos) + 1)
+        newnumPos = numPos - 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) + 1)
+          newnumPos -= 1
     
-      # Rook may move up mutiple squares.
-      newletterPos = letterPos
-      newnumPos = numPos + 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newnumPos += 1
-      
-      # Rook may move down multiple squares.
-      newletterPos = letterPos
-      newnumPos = numPos - 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newnumPos -= 1
+        # Queen can move left and up diagonally.
+        newletterPos = chr(ord(letterPos) - 1)
+        newnumPos = numPos + 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) - 1)
+          newnumPos += 1
 
-      # Rook may move right multiple squares.
-      newletterPos = chr(ord(letterPos) + 1)
-      newnumPos = numPos
-      while movePiece(piece, newletterPos , newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) + 1)
-      
-      # Rook may move left multiple squares.
-      newletterPos = chr(ord(letterPos) - 1)
-      newnumPos = numPos
-      while movePiece(piece, newletterPos , newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) - 1)
+        # Queen can move left and down diagonally.
+        newletterPos = chr(ord(letterPos) - 1)
+        newnumPos = numPos - 1
+        while movePiece(piece, newletterPos, newnumPos) == True:
+          newletterPos = chr(ord(newletterPos) - 1)
+          newnumPos -= 1
 
-    # King may move one square in any direction.
-    elif piece == "King":
+      elif piece == "Knight":
+        # 2 up, 1 right
+        movePiece(piece, chr(ord(letterPos) + 1), numPos + 2)
 
-      # Up.
-      movePiece(piece, letterPos, numPos + 1)
-
-      # Diagonally right and up.
-      movePiece(piece, chr(ord(letterPos) + 1), numPos + 1)
-
-      # Right.
-      movePiece(piece, chr(ord(letterPos) + 1), numPos)
-
-      # Diagonally right and down.
-      movePiece(piece, chr(ord(letterPos) + 1), numPos - 1)
-
-      # Down.
-      movePiece(piece, letterPos, numPos - 1)
-
-      # Diagonally left and down.
-      movePiece(piece, chr(ord(letterPos) - 1), numPos - 1)
-
-      # Left.
-      movePiece(piece, chr(ord(letterPos) - 1), numPos)
-
-      # Diagonally left and up.
-      movePiece(piece, chr(ord(letterPos) - 1), numPos + 1)
-
-    elif piece == "Queen":
-      # Queen may move up mutiple squares.
-      newletterPos = letterPos
-      newnumPos = numPos + 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newnumPos += 1
-      
-      # Queen may move down multiple squares.
-      newletterPos = letterPos
-      newnumPos = numPos - 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newnumPos -= 1
-
-      # Queen may move right multiple squares.
-      newletterPos = chr(ord(letterPos) + 1)
-      newnumPos = numPos
-      while movePiece(piece, newletterPos , newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) + 1)
-      
-      # Queen may move left multiple squares.
-      newletterPos = chr(ord(letterPos) - 1)
-      newnumPos = numPos
-      while movePiece(piece, newletterPos , newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) - 1)
-
-      # Queen can move right and up diagonally. 
-      newletterPos = chr(ord(letterPos) + 1)
-      newnumPos = numPos + 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) + 1)
-        newnumPos += 1
-
-      # Queen can move right and down diagonally.
-      newletterPos = chr(ord(letterPos) + 1)
-      newnumPos = numPos - 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) + 1)
-        newnumPos -= 1
-  
-      # Queen can move left and up diagonally.
-      newletterPos = chr(ord(letterPos) - 1)
-      newnumPos = numPos + 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) - 1)
-        newnumPos += 1
-
-      # Queen can move left and down diagonally.
-      newletterPos = chr(ord(letterPos) - 1)
-      newnumPos = numPos - 1
-      while movePiece(piece, newletterPos, newnumPos) == True:
-        newletterPos = chr(ord(newletterPos) - 1)
-        newnumPos -= 1
-
-    elif piece == "Knight":
-      # 2 up, 1 right
-      movePiece(piece, chr(ord(letterPos) + 1), numPos + 2)
-
-      # 2 up, 1 left
-      movePiece(piece, chr(ord(letterPos) - 1), numPos + 2)
-      
-      # 2 down, 1 right
-      movePiece(piece, chr(ord(letterPos) + 1), numPos - 2)
-      
-      # 2 down, 1 left
-      movePiece(piece, chr(ord(letterPos) - 1), numPos - 2)
-      
-      # 2 right, 1 up
-      movePiece(piece, chr(ord(letterPos) + 2), numPos + 1)
-      
-      # 2 right, 1 down 
-      movePiece(piece, chr(ord(letterPos) + 2), numPos - 1)
-      
-      # 2 left, 1 up
-      movePiece(piece, chr(ord(letterPos) - 2), numPos + 1)
-      
-      # 2 left, 1 down
-      movePiece(piece, chr(ord(letterPos) - 2), numPos - 1)
+        # 2 up, 1 left
+        movePiece(piece, chr(ord(letterPos) - 1), numPos + 2)
+        
+        # 2 down, 1 right
+        movePiece(piece, chr(ord(letterPos) + 1), numPos - 2)
+        
+        # 2 down, 1 left
+        movePiece(piece, chr(ord(letterPos) - 1), numPos - 2)
+        
+        # 2 right, 1 up
+        movePiece(piece, chr(ord(letterPos) + 2), numPos + 1)
+        
+        # 2 right, 1 down 
+        movePiece(piece, chr(ord(letterPos) + 2), numPos - 1)
+        
+        # 2 left, 1 up
+        movePiece(piece, chr(ord(letterPos) - 2), numPos + 1)
+        
+        # 2 left, 1 down
+        movePiece(piece, chr(ord(letterPos) - 2), numPos - 1)
 
 
 def main():
@@ -234,7 +237,7 @@ def main():
   print (" ")
   
   print("Bishop Test Cases:")
-  Chess([["White","Bishop", "D", 2], ["Black", "Bishop", "G", 5]], "White")
+  Chess([["White","Bishop", "D", 2], ["Black", "Bishop", "G", 5]], "Black")
   Chess([["White","Bishop", "D", 2], ["White", "Bishop", "G", 5]], "White")
   print(" ")
 
@@ -263,6 +266,7 @@ def main():
   Chess([["White","Knight", "D", 4], ["White", "Pawn", "E", 2]], "White")
   Chess([["White","Knight", "D", 4], ["Black", "Pawn", "E", 2]], "White")
   print(" ")
+  
 
 main()
 
